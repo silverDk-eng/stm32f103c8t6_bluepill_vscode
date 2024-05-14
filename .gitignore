@@ -52,3 +52,7 @@ Mkfile.old
 dkms.conf
 *.lst
 *.bin
+*.crf
+*.htm
+*.lnp
+*.axf
