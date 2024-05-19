@@ -19,6 +19,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32c8t6_bluepill_board.h"
+#include "user_include.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 
@@ -94,6 +95,8 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   /* USER CODE END 2 */
+  RingBuffer_Init(&uart1_txBuf);
+  RingBuffer_Init(&uart1_rxBuf);
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
