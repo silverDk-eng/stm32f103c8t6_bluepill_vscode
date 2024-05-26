@@ -18,11 +18,11 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-#include "stm32c8t6_bluepill_board.h"
-#include "user_include.h"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "stm32c8t6_bluepill_board.h"
+#include "user_include.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -90,19 +90,19 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+
+  /* USER CODE BEGIN 2 */
   MX_USART1_UART_Init();
   MX_USART2_UART_Init();
-  /* USER CODE BEGIN 2 */
-
-  /* USER CODE END 2 */
   RingBuffer_Init(&uart1_txBuf);
   RingBuffer_Init(&uart1_rxBuf);
+  /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    /* USER CODE END WHILE */    
+    /* USER CODE END WHILE */
 
     for(volatile int32_t i = 0; i < (1000000/2); i++){
       __NOP();
