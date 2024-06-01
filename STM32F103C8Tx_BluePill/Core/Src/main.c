@@ -21,6 +21,9 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "stm32c8t6_bluepill_board.h"
 #include "user_include.h"
 /* USER CODE END Includes */
@@ -32,7 +35,9 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+#define WELCOME_MSG "Welcome to the Nucleo management console\r\n"
+#define MAIN_MENU   "Select the option you are interested in:\r\n\t1. Toggle LD2 LED\r\n\t2. Read USER BUTTON status\r\n\t3. Clear screen and print this message "
+#define PROMPT "\r\n> "
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -41,10 +46,12 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
-UART_HandleTypeDef huart1;
+UART_HandleTypeDef huart1; //PIN9,10
 UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
+__IO ITStatus UartReady = SET;
+char readBuf[1];
 
 /* USER CODE END PV */
 
@@ -60,6 +67,66 @@ static void MX_USART2_UART_Init(void);
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
 
+int8_t readUserInput(void){
+  int8_t retVal = -1;
+  if(UartReady == SET){
+    UartReady = RESET;
+      // if(HAL_OK == HAL_UART_Receive_IT(&huart1, (uint8_t *)readBuf, 1)){
+      //   retVal = atoi(readBuf);
+      // }    
+    HAL_UART_Receive_IT(&huart1, (uint8_t*)readBuf, 1);
+    retVal = atoi(readBuf);         
+  }
+  return retVal;
+}
+
+HAL_StatusTypeDef UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t len){
+  if(HAL_UART_Transmit_IT(huart, pData, len) != HAL_OK){
+    if(RingBuffer_Write(&uart1_txBuf, pData, len) != RING_BUFFER_OK){
+      return 0;
+    }
+  }
+  return 1;
+}
+
+uint8_t processUserInput(int8_t opt) {
+  char msg[30];
+
+  if(!(opt >=1 && opt <= 3))
+    return 0;
+
+  sprintf(msg, "%d", opt);
+  UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg));
+
+  switch(opt) {
+  case 1:
+    HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+    break;
+  case 2:
+    sprintf(msg, "\r\nstatus: %s", HAL_GPIO_ReadPin(LED_GPIO_Port, LED_Pin) == GPIO_PIN_RESET ? "PRESSED" : "RELEASED");
+    UART_Transmit(&huart1, (uint8_t*)msg, strlen(msg));
+    break;
+  case 3:
+    return 2;
+  };
+
+  UART_Transmit(&huart1, (uint8_t*)PROMPT, strlen(PROMPT));
+  return 1;
+}
+
+void printWelcomeMessage(void) {
+  char *strings[] = {"\033[0;0H", "\033[2J", WELCOME_MSG, MAIN_MENU, PROMPT};
+
+  for (uint8_t i = 0; i < 5; i++) {
+    UART_Transmit(&huart1, (uint8_t*)strings[i], strlen(strings[i]));
+    while (HAL_UART_GetState(&huart1) == HAL_UART_STATE_BUSY_TX || HAL_UART_GetState(&huart1) == HAL_UART_STATE_BUSY_TX_RX);
+  }
+}
+
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle) {
+ /* Set transmission flag: transfer complete*/
+ UartReady = SET;
+}
 /* USER CODE END 0 */
 
 /**
@@ -69,7 +136,7 @@ static void MX_USART2_UART_Init(void);
 int main(void)
 {
   /* USER CODE BEGIN 1 */
-
+  uint8_t opt = 0;
   /* USER CODE END 1 */
 
   /* MCU Configuration--------------------------------------------------------*/
@@ -94,8 +161,13 @@ int main(void)
   /* USER CODE BEGIN 2 */
   MX_USART1_UART_Init();
   MX_USART2_UART_Init();
+  /* Enable USART2 interrupt */
+  HAL_NVIC_SetPriority(USART1_IRQn, 0, 0);
+  HAL_NVIC_EnableIRQ(USART1_IRQn);
+
   RingBuffer_Init(&uart1_txBuf);
   RingBuffer_Init(&uart1_rxBuf);
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -104,11 +176,25 @@ int main(void)
   {
     /* USER CODE END WHILE */
 
+#if 0
     for(volatile int32_t i = 0; i < (1000000/2); i++){
       __NOP();
     }    
     HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+#else
 
+printMessage:
+  printWelcomeMessage();
+  while (1)  {
+    opt = readUserInput();
+    if(opt > 0) {
+      processUserInput(opt);
+      if(opt == 3){
+        goto printMessage;
+      }      
+    }
+  }
+#endif
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
