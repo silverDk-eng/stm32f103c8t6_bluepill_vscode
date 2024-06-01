@@ -2,7 +2,8 @@
     "cortex-debug.openocdPath": "E:\\VSARM\\openocd\\bin",
     "cortex-debug.armToolchainPath.linux": null,
     "files.associations": {
-        "stm32c8t6_bluepill_board.h": "c"
+        "stm32c8t6_bluepill_board.h": "c",
+        "string.h": "c"
     },
     // "cortex-debug.armToolchainPath.windows": 
 }
