@@ -1,6 +1,6 @@
 Dependencies for Project 'STM32F103C8Tx_BluePill', Target 'STM32F103C8Tx_BluePill': (DO NOT MODIFY !)
 F (startup_stm32f103xb.s)(0x6652B8DC)(--cpu Cortex-M3 -g --apcs=interwork -I.\RTE\_STM32F103C8Tx_BluePill-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.4.1\Device\Include--pd "__UVISION_VERSION SETA 524" --pd "_RTE_ SETA 1" --pd "STM32F10X_MD SETA 1"--list startup_stm32f103xb.lst --xref -o stm32f103c8tx_bluepill\startup_stm32f103xb.o --depend stm32f103c8tx_bluepill\startup_stm32f103xb.d)
-F (../Core/Src/main.c)(0x6652BB35)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Core/Src/RingBuffer-I.\RTE\_STM32F103C8Tx_BluePill-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o stm32f103c8tx_bluepill\main.o --omf_browse stm32f103c8tx_bluepill\main.crf --depend stm32f103c8tx_bluepill\main.d)
+F (../Core/Src/main.c)(0x6657371A)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Core/Src/RingBuffer-I.\RTE\_STM32F103C8Tx_BluePill-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o stm32f103c8tx_bluepill\main.o --omf_browse stm32f103c8tx_bluepill\main.crf --depend stm32f103c8tx_bluepill\main.d)
 I (../Core/Inc/main.h)(0x6640E8B1)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x663E3C57)
 I (../Core/Inc/stm32f1xx_hal_conf.h)(0x664394B4)
@@ -27,6 +27,12 @@ I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash.h)(0x663E3C57)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_flash_ex.h)(0x663E3C57)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_pwr.h)(0x663E3C57)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h)(0x663E3C57)
+I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x588B7534)
+I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x588B7534)
+I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588B7534)
+I (../Core/Inc/stm32c8t6_bluepill_board.h)(0x6648D9E3)
+I (../Core/Inc/user_include.h)(0x664A060E)
+I (../Core/Src/RingBuffer/ringbuffer.h)(0x664A0471)
 F (../Core/Src/stm32f1xx_it.c)(0x6648C32A)(--c99 -c --cpu Cortex-M3 -g -O3 --apcs=interwork --split_sections -I ../Core/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc -I ../Drivers/STM32F1xx_HAL_Driver/Inc/Legacy -I ../Drivers/CMSIS/Device/ST/STM32F1xx/Include -I ../Drivers/CMSIS/Include -I ../Core/Src/RingBuffer-I.\RTE\_STM32F103C8Tx_BluePill-IC:\Keil_v5\ARM\PACK\ARM\CMSIS\5.0.1\CMSIS\Include-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.4.1\Device\Include-D__UVISION_VERSION="524" -D_RTE_ -DSTM32F10X_MD -DUSE_HAL_DRIVER -DSTM32F103xB-o stm32f103c8tx_bluepill\stm32f1xx_it.o --omf_browse stm32f103c8tx_bluepill\stm32f1xx_it.crf --depend stm32f103c8tx_bluepill\stm32f1xx_it.d)
 I (../Core/Inc/main.h)(0x6640E8B1)
 I (../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal.h)(0x663E3C57)
