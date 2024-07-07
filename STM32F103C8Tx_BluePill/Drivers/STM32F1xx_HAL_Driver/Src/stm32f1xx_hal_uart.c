@@ -1330,6 +1330,12 @@ HAL_StatusTypeDef HAL_UART_Transmit_IT(UART_HandleTypeDef *huart, const uint8_t 
   }
 }
 
+void test()
+{
+  //__HAL_UART_ENABLE_IT(huart, UART_IT_TXE);
+}
+    
+
 /**
   * @brief  Receives an amount of data in non blocking mode.
   * @note   When UART parity is not enabled (PCE = 0), and Word Length is configured to 9 bits (M1-M0 = 01),
@@ -3511,9 +3517,11 @@ static void UART_DMARxOnlyAbortCallback(DMA_HandleTypeDef *hdma)
   *                the configuration information for the specified UART module.
   * @retval HAL status
   */
+   uint32_t tx_data;
 static HAL_StatusTypeDef UART_Transmit_IT(UART_HandleTypeDef *huart)
 {
   const uint16_t *tmp;
+
 
   /* Check that a Tx process is ongoing */
   if (huart->gState == HAL_UART_STATE_BUSY_TX)
@@ -3526,7 +3534,11 @@ static HAL_StatusTypeDef UART_Transmit_IT(UART_HandleTypeDef *huart)
     }
     else
     {
-      huart->Instance->DR = (uint8_t)(*huart->pTxBuffPtr++ & (uint8_t)0x00FF);
+       tx_data = *huart->pTxBuffPtr;
+      huart->Instance->DR = (uint8_t)(tx_data & (uint8_t)0x00FF);
+      *huart->pTxBuffPtr++;
+      // huart->Instance->DR = (uint8_t)(*huart->pTxBuffPtr++ & (uint8_t)0x00FF);      
+      tx_data++;
     }
 
     if (--huart->TxXferCount == 0U)

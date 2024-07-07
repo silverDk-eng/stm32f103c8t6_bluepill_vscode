@@ -1,0 +1,60 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+
+
+    // https://gist.github.com/luncliff/6e2d4eb7ca29a0afd5b592f72b80cb5c
+    // https://gist.github.com/luncliff/6e2d4eb7ca29a0afd5b592f72b80cb5c
+    // https://stackoverflow.com/questions/16319292/cmake-error-could-not-load-cache  ---> error solution
+
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "Build Project",
+            "command": "cmake --build .",
+            "options": {
+                "cwd": "${workspaceFolder}/STM32F103C8Tx_BluePill/" // override . -> cwd : ${workspaceFolder}/build
+
+                // options: Override the defaults for cwd (current working directory),
+                // env (environment variables), or shell (default shell). 
+                // Options can be set per task but also globally or per platform. 
+                // Environment variables configured here can only be referenced from within your task script or process 
+                // and will not be resolved if they are part of your args, command, or other task attributes.
+                // runOptions: Defines when and how a task is run.                
+                
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": {
+                "base": "$gcc",  
+                "fileLocation": ["relative", "${workspaceFolder}/STM32F103C8Tx_BluePill/build"]
+            }
+        },
+        {
+            "type": "shell",
+            "label": "clean & build",
+            "command": "cmake --build . --clean-first",
+            "options": {
+                "cwd": "${workspaceFolder}/STM32F103C8Tx_BluePill/"
+            },
+            "group": "build",
+            "problemMatcher": {
+                "base": "$gcc", 
+                "fileLocation": ["relative", "${workspaceFolder}/STM32F103C8Tx_BluePill/build"]
+            }
+        },
+        {
+            "type": "shell",
+            "label": "echo test - variables",
+            "command":"echo",
+            "args": [
+                "${workspaceFolder}",
+                "${workspaceFolderBasename}",                
+            ]
+        }
+
+    ]
+}
