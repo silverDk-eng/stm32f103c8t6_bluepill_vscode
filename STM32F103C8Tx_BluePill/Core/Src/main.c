@@ -89,6 +89,15 @@ HAL_StatusTypeDef UART_Transmit(UART_HandleTypeDef *huart, uint8_t *pData, uint1
   return 1;
 }
 
+HAL_StatusTypeDef UART_Transmit2(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t len){
+  if(HAL_UART_Transmit_IT(huart, pData, len) != HAL_OK){
+    if(RingBuffer_Write(&uart1_txBuf, pData, len) != RING_BUFFER_OK){
+      return 0;
+    }
+  }
+  return 1;
+}
+
 uint8_t processUserInput(int8_t opt) {
   char msg[30];
 
@@ -115,12 +124,22 @@ uint8_t processUserInput(int8_t opt) {
 }
 
 void printWelcomeMessage(void) {
-  char *strings[] = {"\033[0;0H", "\033[2J", WELCOME_MSG, MAIN_MENU, PROMPT};
+  
+#if 1
 
+  const char *test = "test\n";
+  for (uint8_t i = 0; i < 1; i++) {  
+    UART_Transmit(&huart1, (uint8_t*)test, strlen(test));
+    while (HAL_UART_GetState(&huart1) == HAL_UART_STATE_BUSY_TX || HAL_UART_GetState(&huart1) == HAL_UART_STATE_BUSY_TX_RX);
+  }
+#else
+  char *strings[] = {"\033[0;0H", "\033[2J", WELCOME_MSG, MAIN_MENU, PROMPT};
+  
   for (uint8_t i = 0; i < 5; i++) {
     UART_Transmit(&huart1, (uint8_t*)strings[i], strlen(strings[i]));
     while (HAL_UART_GetState(&huart1) == HAL_UART_STATE_BUSY_TX || HAL_UART_GetState(&huart1) == HAL_UART_STATE_BUSY_TX_RX);
   }
+#endif 
 }
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle) {

@@ -5,5 +5,22 @@
         "stm32c8t6_bluepill_board.h": "c",
         "string.h": "c"
     },
+    "cmake.options.statusBarVisibility": "visible",
+    "cmake.options.advanced": {
+        
+        "build": {
+            "statusBarVisibility": "inherit",
+            "inheritDefault": "visible"
+        },
+        "launch": {
+            "statusBarVisibility": "inherit",
+            "inheritDefault": "visible"
+        },
+        "debug": {
+            "statusBarVisibility": "inherit",
+            "inheritDefault": "visible"
+        }
+    },
+    "cmake.sourceDirectory": "E:/git_projects/stm32_test_all/stm32f103c8t6_BluePill_test/STM32F103C8Tx_BluePill",
     // "cortex-debug.armToolchainPath.windows": 
 }
