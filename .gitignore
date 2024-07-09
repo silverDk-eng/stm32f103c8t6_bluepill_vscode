@@ -59,5 +59,7 @@ dkms.conf
 *.tmp
 # build/
 STM32F103C8Tx_BluePill/build/
+build/
 *.dep
 STM32F103C8Tx_BluePill/MDK-ARM/STM32F103C8Tx_BluePill/STM32F103C8Tx_BluePill_STM32F103C8Tx_BluePill.dep
+build/CMakeFiles/3.28.1/CMakeCXXCompiler.cmake
