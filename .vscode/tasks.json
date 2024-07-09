@@ -11,8 +11,8 @@
     "tasks": [
         {
             "type": "shell",
-            "label": "Build Project",
-            "command": "cmake --build .",
+            "label": "Cmake Configuration+Generate",
+            "command": "mkdir build_Makefiles; cmake -B ./build_Makefiles/ -S . -G \"Unix Makefiles\"",
             "options": {
                 "cwd": "${workspaceFolder}/STM32F103C8Tx_BluePill/" // override . -> cwd : ${workspaceFolder}/build
 
@@ -30,20 +30,44 @@
             },
             "problemMatcher": {
                 "base": "$gcc",  
-                "fileLocation": ["relative", "${workspaceFolder}/STM32F103C8Tx_BluePill/build"]
+                "fileLocation": ["relative", "${workspaceFolder}/STM32F103C8Tx_BluePill/build_Makefiles"]
+            }
+        },        
+        {
+            "type": "shell",
+            "label": "Build Project",
+            "command": "cmake --build ./build_Makefiles",
+            "options": {
+                "cwd": "${workspaceFolder}/STM32F103C8Tx_BluePill/" // override . -> cwd : ${workspaceFolder}/build
+
+                // options: Override the defaults for cwd (current working directory),
+                // env (environment variables), or shell (default shell). 
+                // Options can be set per task but also globally or per platform. 
+                // Environment variables configured here can only be referenced from within your task script or process 
+                // and will not be resolved if they are part of your args, command, or other task attributes.
+                // runOptions: Defines when and how a task is run.                
+                
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": {
+                "base": "$gcc",  
+                "fileLocation": ["relative", "${workspaceFolder}/STM32F103C8Tx_BluePill/build_Makefiles"]
             }
         },
         {
             "type": "shell",
             "label": "clean & build",
-            "command": "cmake --build . --clean-first",
+            "command": "cmake --build ./build_Makefiles --clean-first",
             "options": {
                 "cwd": "${workspaceFolder}/STM32F103C8Tx_BluePill/"
             },
             "group": "build",
             "problemMatcher": {
                 "base": "$gcc", 
-                "fileLocation": ["relative", "${workspaceFolder}/STM32F103C8Tx_BluePill/build"]
+                "fileLocation": ["relative", "${workspaceFolder}/STM32F103C8Tx_BluePill/build_Makefiles"]
             }
         },
         {
