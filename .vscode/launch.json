@@ -1,0 +1,87 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            // "cwd": "${workspaceRoot}",
+            "cwd": "E:/git_projects/stm32_test_all/stm32f103c8t6_BluePill_test/STM32F103C8Tx_BluePill",        
+            //workspaceRoot : E:\git_projects\stm32_test_all\stm32f103c8t6_BluePill_test
+            // "name": "Debug Microcontroller",
+            "name": "Debug OpenOCD for STM32",
+            "executable": "./build/Makefiles/STM32F103C8T6_BluePill.elf",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "serverpath": "E:/VSARM/openocd/bin/openocd.exe",
+            "armToolchainPath": "E:/VSARM/armcc/13.2 Rel1/bin",
+            // "configFiles": ["E:/VSARM/openocd/share/openocd/scripts/board/stm32f103c8_blue_pill.cfg"], //"openocd -f option"
+            "configFiles": 
+            [
+                "interface/stlink.cfg",
+                "target/stm32f1x.cfg",
+            ],            
+            "preLaunchCommands": [
+                // "symbol-file port/NUCLEO_STM32H563/Output/App.elf",
+                // "monitor reset halt",
+                // "break application_main",
+            ], 
+            "postLaunchCommands": [
+                // "continue"
+            ]
+            ,"preRestartCommands": [
+            ],            
+            
+            "device": "STM32f103C8", //== // "device": "stm32f1x",
+            "interface": "swd",
+            "serialNumber": "", // add J-Link serial number if having multiple attached the same time.
+            "runToEntryPoint":"main",
+            "svdFile": "${workspaceRoot}/stm32f1_svd/STM32F1_svd_V1.2/STM32F103.svd",
+            "liveWatch": {
+                "enabled": false,
+                "samplesPerSecond": 1
+            }
+        }
+    ]
+}
+
+
+
+// OpenOCD GDB Server
+// We modify launch.json to configure debug features.
+// Below is an example of a basic launch configuration using the OpenOCD GDB server.
+// In this configuration the device parameter is not required – but can be supplied to allow auto-selecting an appropriate SVD file if possible.
+// There is one OpenOCD specific parameter that must be supplied. The configFiles property takes an arrays of strings that are used to load openocd configuration files. These can either be a files in the openocd search path (like in this example), or a full path to your own configuration file. If you are using OpenOCD supplied files you typically will have either one file from the board section, or a file from the interface section and a file from the target section.
+// Open the VSCode launch configuration file launch.json: Run → Add Configuration…
+// Copy the following code
+// {
+//     "version": "0.2.0",
+//     "configurations": [
+//         {
+//             "name": "Debug (OpenOCD)",
+//             "cwd": "${workspaceRoot}",
+//             "executable": "${workspaceRoot}/build/blinky.elf",
+//             "request": "launch",
+//             "type": "cortex-debug",
+//             "servertype": "openocd",
+//             "interface": "swd",
+//             "device": "TM4C123GH6PM",
+//             "runToEntryPoint": "main",
+//             "svdFile": "${workspaceRoot}/svd/TM4C123GH6PM.svd",
+//             "configFiles": [
+//                 "board/ek-tm4c123gxl.cfg"
+//             ],
+//             "preLaunchCommands": [
+//                 "set mem inaccessible-by-default off",
+//                 "monitor reset"
+//             ],
+//             "postLaunchCommands": [
+//                 "monitor reset init",
+//                 "monitor sleep 200"
+//             ]
+//         }
+//     ]
+// }
+// Change “executable“, “svdFile“, and “device” parameter as appropriate and save it
+// SVD Files: The “svdFile” entry in the launch.json file is optional, but crucial to embedded system debugging because it describes the device peripheral registers.

@@ -2,7 +2,6 @@
     // See https://go.microsoft.com/fwlink/?LinkId=733558
     // for the documentation about the tasks.json format
 
-
     // https://gist.github.com/luncliff/6e2d4eb7ca29a0afd5b592f72b80cb5c
     // https://gist.github.com/luncliff/6e2d4eb7ca29a0afd5b592f72b80cb5c
     // https://stackoverflow.com/questions/16319292/cmake-error-could-not-load-cache  ---> error solution
@@ -11,8 +10,11 @@
     "tasks": [
         {
             "type": "shell",
-            "label": "Cmake Configuration+Generate",
-            "command": "mkdir build_Makefiles; cmake -B ./build_Makefiles/ -S . -G \"Unix Makefiles\"",
+            "label": "Cmake Cfg + Make Generate",
+            // "command": "mkdir build; mkdir build/Makefiles; cmake -B ./build/Makefiles/ -S . -G \"Unix Makefiles\"",
+            // "command": "mkdir build; mkdir build/Makefiles; cmake -B ./build/Makefiles/ -S . -G 'Unix Makefiles'",
+            // "command": "cmake -B ./build/Makefiles/ -S . -G 'Unix Makefiles'; cmake --build ./build/Makefiles -j4",
+            "command": "cmake -B ./build/Makefiles/ -S . -G 'Unix Makefiles'; cmake --build ./build/Makefiles -j6", 
             "options": {
                 "cwd": "${workspaceFolder}/STM32F103C8Tx_BluePill/" // override . -> cwd : ${workspaceFolder}/build
 
@@ -30,44 +32,68 @@
             },
             "problemMatcher": {
                 "base": "$gcc",  
-                "fileLocation": ["relative", "${workspaceFolder}/STM32F103C8Tx_BluePill/build_Makefiles"]
+                "fileLocation": ["relative", "${workspaceFolder}/STM32F103C8Tx_BluePill/build/Makefiles"]
             }
-        },        
+        },       
         {
             "type": "shell",
-            "label": "Build Project",
-            "command": "cmake --build ./build_Makefiles",
+            "label": "Cmake Cfg + Ninja Generate",
+            "command": "cmake -B ./build/Ninja/ -S . -G 'Ninja'; cmake --build ./build/Ninja -j4", 
             "options": {
                 "cwd": "${workspaceFolder}/STM32F103C8Tx_BluePill/" // override . -> cwd : ${workspaceFolder}/build
-
-                // options: Override the defaults for cwd (current working directory),
-                // env (environment variables), or shell (default shell). 
-                // Options can be set per task but also globally or per platform. 
-                // Environment variables configured here can only be referenced from within your task script or process 
-                // and will not be resolved if they are part of your args, command, or other task attributes.
-                // runOptions: Defines when and how a task is run.                
-                
             },
             "group": {
                 "kind": "build",
-                "isDefault": true
+                // "isDefault": true
+            }, 
+            "problemMatcher": {
+                "base": "$gcc",  
+                "fileLocation": ["relative", "${workspaceFolder}/STM32F103C8Tx_BluePill/build/Ninja"]
+            }
+        },          
+        {
+            "type": "shell",
+            "label": "Build Make Project",
+            "command": "cmake --build ./build/Makefiles -j4",
+            "options": {
+                "cwd": "${workspaceFolder}/STM32F103C8Tx_BluePill/" // override . -> cwd : ${workspaceFolder}/build                
+            },
+            "group": {
+                "kind": "build",
+                // "isDefault": true
             },
             "problemMatcher": {
                 "base": "$gcc",  
-                "fileLocation": ["relative", "${workspaceFolder}/STM32F103C8Tx_BluePill/build_Makefiles"]
+                "fileLocation": ["relative", "${workspaceFolder}/STM32F103C8Tx_BluePill/build/Makefiles"]
             }
         },
         {
             "type": "shell",
-            "label": "clean & build",
-            "command": "cmake --build ./build_Makefiles --clean-first",
+            "label": "Build Ninja Project",
+            "command": "cmake --build ./build/Ninja -j4",
+            "options": {
+                "cwd": "${workspaceFolder}/STM32F103C8Tx_BluePill/" // override . -> cwd : ${workspaceFolder}/build                
+            },
+            "group": {
+                "kind": "build",
+                // "isDefault": true
+            },
+            "problemMatcher": {
+                "base": "$gcc",  
+                "fileLocation": ["relative", "${workspaceFolder}/STM32F103C8Tx_BluePill/build/Ninja"]
+            }
+        },        
+        {
+            "type": "shell",
+            "label": "Make clean & build",
+            "command": "cmake --build ./build/Makefiles --clean-first -j4",
             "options": {
                 "cwd": "${workspaceFolder}/STM32F103C8Tx_BluePill/"
             },
             "group": "build",
             "problemMatcher": {
                 "base": "$gcc", 
-                "fileLocation": ["relative", "${workspaceFolder}/STM32F103C8Tx_BluePill/build_Makefiles"]
+                "fileLocation": ["relative", "${workspaceFolder}/STM32F103C8Tx_BluePill/build/Makefiles"]
             }
         },
         {
@@ -75,10 +101,10 @@
             "label": "echo test - variables",
             "command":"echo",
             "args": [
-                "${workspaceFolder}",
-                "${workspaceFolderBasename}",                
+                "workspaceFolder : ${workspaceFolder}",
+                "workspaceRoot : ${workspaceRoot}",
+                "workspaceFolderBasename : ${workspaceFolderBasename}"
             ]
         }
-
     ]
 }
