@@ -20,7 +20,8 @@
             "configFiles": 
             [
                 "interface/stlink.cfg",
-                "target/stm32f1x.cfg",
+                // "target/stm32f1x.cfg",
+                "board/stm32f103c8_blue_pill.cfg"
             ],            
             "preLaunchCommands": [
                 // "symbol-file port/NUCLEO_STM32H563/Output/App.elf",

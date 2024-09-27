@@ -3,7 +3,10 @@
     "cortex-debug.armToolchainPath.linux": null,
     "files.associations": {
         "stm32c8t6_bluepill_board.h": "c",
-        "string.h": "c"
+        "string.h": "c",
+        "uart_comm.h": "c",
+        "stdint.h": "c",
+        "stm32f1xx_hal.h": "c"
     },
     "cmake.options.statusBarVisibility": "visible",
     "cmake.options.advanced": {

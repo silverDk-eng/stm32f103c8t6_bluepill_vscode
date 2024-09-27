@@ -26,6 +26,7 @@
 #include <string.h>
 #include "stm32c8t6_bluepill_board.h"
 #include "user_include.h"
+#include "uart_comm.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -42,7 +43,7 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-
+#define EDK_TEST (2)
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -187,6 +188,7 @@ int main(void)
   RingBuffer_Init(&uart1_txBuf);
   RingBuffer_Init(&uart1_rxBuf);
 
+  uart_comm_enable_RX_IT(&huart1, (uint8_t *)&uart1_rxBuf.buf, UART_INFINITE_EN_CNT);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -195,13 +197,14 @@ int main(void)
   {
     /* USER CODE END WHILE */
 
-#if 0
+#if EDK_TEST == 1
     for(volatile int32_t i = 0; i < (1000000/2); i++){
       __NOP();
     }    
     HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
-#else
-
+#elif EDK_TEST == 2
+    
+#elif EDK_TEST == 3
 printMessage:
   printWelcomeMessage();
   while (1)  {
