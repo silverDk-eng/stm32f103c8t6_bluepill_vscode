@@ -6,7 +6,8 @@
         "string.h": "c",
         "uart_comm.h": "c",
         "stdint.h": "c",
-        "stm32f1xx_hal.h": "c"
+        "stm32f1xx_hal.h": "c",
+        "ringbuffer.h": "c"
     },
     "cmake.options.statusBarVisibility": "visible",
     "cmake.options.advanced": {

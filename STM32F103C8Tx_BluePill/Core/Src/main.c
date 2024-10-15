@@ -203,7 +203,7 @@ int main(void)
     }    
     HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
 #elif EDK_TEST == 2
-    
+    uart_comm_command();
 #elif EDK_TEST == 3
 printMessage:
   printWelcomeMessage();

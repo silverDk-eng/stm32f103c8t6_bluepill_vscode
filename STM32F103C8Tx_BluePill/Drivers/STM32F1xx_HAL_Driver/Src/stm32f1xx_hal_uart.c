@@ -3684,7 +3684,7 @@ static HAL_StatusTypeDef UART_Receive_IT(UART_HandleTypeDef *huart)
     else{//24.09.20
       if(huart->RxXferCount == UART_INFINITE_EN_CNT){
         uart_comm_receive_data_IT(data8bits);
-        huart->Instance->DR = (uint8_t)(data8bits & (uint8_t)0x00FF);         
+        // huart->Instance->DR = (uint8_t)(data8bits & (uint8_t)0x00FF);         
         __HAL_UART_CLEAR_FLAG(huart, UART_FLAG_RXNE); 
       }        
     }
