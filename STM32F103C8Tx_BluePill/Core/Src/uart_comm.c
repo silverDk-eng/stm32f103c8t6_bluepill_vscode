@@ -72,17 +72,89 @@ void delay(void)
     while(delay--);
 }
 
-void uart_comm_parse_argv(uint32_t *argc,char **argv, char *command)
-{
-    char *p;
+char *trim_left(char *str) {
+    /* https://www.dotnetnote.com/docs/c-language/topics/string-trim/ */
+    while (*str) {
+        if (isspace(*str)) {
+            str++;
+        } else {
+            break;
+        }
+    }
+    return str;
+}
 
-    // strspan()
-    p = strtok(command, " ");
+char *trim_right(char *str) {
+    /* https://www.dotnetnote.com/docs/c-language/topics/string-trim/ */
+    int len = (int)strlen(str) - 1;
+
+    while (len >= 0) {
+        if (isspace(*(str + len))) {
+            len--;
+        } else {
+            break;
+        }
+    }
+    *(str + ++len) = '\0';
+    return str;
+}
+
+char *trim(char *str) {
+    /* https://www.dotnetnote.com/docs/c-language/topics/string-trim/ */
+    return trim_left(trim_right(str));
+}
+
+void uart_comm_parse_argv(uint32_t *argc,char **argv, char *command)
+{    
+    char *sub_string = NULL;
+    char token[] = " ";
+    
+    // uart_comm_put_char(&huart1, *validChar);
+    sub_string = strtok(command, token);        
+
+    while(++(*argc) <= ARGV_MAX)
+    {
+        *argv++ = sub_string;
+        sub_string = strtok(NULL, token);
+
+        if(sub_string == NULL)
+            break;
+    }    
+
+// #include <stdio.h>
+// #include <string.h>
+
+// int main(void) {    
+//     char string[] = "All you need is kill, Live, Die, and repeat.";
+//     char token[] = " .,";         // whitespace( ), dot(.), and comma(,).
+//     char *pch = NULL;
+    
+//     pch = strtok(string, token);
+//     while(pch != NULL) {
+//         printf("Tokenized: %s\n", pch);
+//         pch = strtok(NULL, token);
+//     }
+    
+//     // Tokenized: All
+//     // Tokenized: you
+//     // Tokenized: need
+//     // Tokenized: is
+//     // Tokenized: kill
+//     // Tokenized: Live
+//     // Tokenized: Die
+//     // Tokenized: and
+//     // Tokenized: repeat
+    
+//     return 0;    
+// }
 }
 
 void uart_comm_command(void)
 {
     char *argv[ARGV_MAX];
+    uint32_t argc=0;
+
+    char commandBuf[RX_SIZE];
 
     static uint16_t cmd_buf_cnt = 0;
     uint8_t data;
@@ -105,8 +177,16 @@ void uart_comm_command(void)
                     uart_comm_rx_init(&cmd_rx);
                     break;
                 case 0x0D: //enter : Carrige Return
+                    memcpy(commandBuf, cmd_rx.rx, cmd_rx.cnt);
+                    commandBuf[cmd_rx.cnt] = 0;
+                    
+                    for(int i=0; i<ARGV_MAX; i++)
+                        argv[i]=NULL;
+
+                    uart_comm_parse_argv(&argc,argv,commandBuf);
+
                     for(int i = 0; i < cmd_rx.cnt; i++){
-                        uart_comm_put_char(&huart1, cmd_rx.rx[i]);
+                        uart_comm_put_char(&huart1, commandBuf[i]);
                     }
                     uart_comm_put_char(&huart1, 0x0A);
                     uart_comm_put_char(&huart1, 0x0D);
