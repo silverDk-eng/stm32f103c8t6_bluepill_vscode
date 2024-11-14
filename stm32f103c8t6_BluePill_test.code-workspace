@@ -25,6 +25,7 @@
 				"statusBarVisibility": "inherit",
 				"inheritDefault": "visible"
 			}
-		}
+		},
+		"cortex-debug.variableUseNaturalFormat": false
 	}
 }

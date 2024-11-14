@@ -256,6 +256,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f1xx_hal.h"
+#include "uart_comm.h"
 
 /** @addtogroup STM32F1xx_HAL_Driver
   * @{
@@ -3590,6 +3591,7 @@ static HAL_StatusTypeDef UART_EndTransmit_IT(UART_HandleTypeDef *huart)
   */
 static HAL_StatusTypeDef UART_Receive_IT(UART_HandleTypeDef *huart)
 {
+  uint8_t  data8bits; //24.09.20
   uint8_t  *pdata8bits;
   uint16_t *pdata16bits;
 
@@ -3610,16 +3612,20 @@ static HAL_StatusTypeDef UART_Receive_IT(UART_HandleTypeDef *huart)
 
       if ((huart->Init.WordLength == UART_WORDLENGTH_9B) || ((huart->Init.WordLength == UART_WORDLENGTH_8B) && (huart->Init.Parity == UART_PARITY_NONE)))
       {
-        *pdata8bits = (uint8_t)(huart->Instance->DR & (uint8_t)0x00FF);
+        data8bits = *pdata8bits = (uint8_t)(huart->Instance->DR & (uint8_t)0x00FF);
       }
       else
       {
-        *pdata8bits = (uint8_t)(huart->Instance->DR & (uint8_t)0x007F);
+        data8bits = *pdata8bits = (uint8_t)(huart->Instance->DR & (uint8_t)0x007F);
       }
-      huart->pRxBuffPtr += 1U;
+      if(huart->RxXferCount != UART_INFINITE_EN_CNT){
+        huart->pRxBuffPtr += 1U;
+      }
+      
     }
 
-    if (--huart->RxXferCount == 0U)
+    // if (--huart->RxXferCount == 0U)
+    if (huart->RxXferCount != UART_INFINITE_EN_CNT && --huart->RxXferCount == 0U)
     {
       /* Disable the UART Data Register not empty Interrupt */
       __HAL_UART_DISABLE_IT(huart, UART_IT_RXNE);
@@ -3669,11 +3675,18 @@ static HAL_StatusTypeDef UART_Receive_IT(UART_HandleTypeDef *huart)
         huart->RxCpltCallback(huart);
 #else
         /*Call legacy weak Rx complete callback*/
-        HAL_UART_RxCpltCallback(huart);
+        HAL_UART_RxCpltCallback(huart);        
 #endif /* USE_HAL_UART_REGISTER_CALLBACKS */
       }
 
       return HAL_OK;
+    }
+    else{//24.09.20
+      if(huart->RxXferCount == UART_INFINITE_EN_CNT){
+        uart_comm_receive_data_IT(data8bits);
+        // huart->Instance->DR = (uint8_t)(data8bits & (uint8_t)0x00FF);         
+        __HAL_UART_CLEAR_FLAG(huart, UART_FLAG_RXNE); 
+      }        
     }
     return HAL_OK;
   }
