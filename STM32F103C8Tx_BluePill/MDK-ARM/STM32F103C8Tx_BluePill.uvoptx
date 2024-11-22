@@ -168,25 +168,9 @@
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>182</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134226620</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>..\Core\Src\uart_comm.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\STM32F103C8Tx_BluePill\../Core/Src/uart_comm.c\182</Expression>
-        </Bp>
-        <Bp>
-          <Number>2</Number>
-          <Type>0</Type>
           <LineNumber>109</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134226728</Address>
+          <Address>134226748</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -196,6 +180,22 @@
           <Filename>..\Core\Src\uart_comm.c</Filename>
           <ExecCommand></ExecCommand>
           <Expression>\\STM32F103C8Tx_BluePill\../Core/Src/uart_comm.c\109</Expression>
+        </Bp>
+        <Bp>
+          <Number>2</Number>
+          <Type>0</Type>
+          <LineNumber>180</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134226598</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>..\Core\Src\uart_comm.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\STM32F103C8Tx_BluePill\../Core/Src/uart_comm.c\180</Expression>
         </Bp>
         <Bp>
           <Number>3</Number>

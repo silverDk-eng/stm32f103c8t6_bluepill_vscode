@@ -216,3 +216,25 @@ void uart_comm_put_char(UART_HandleTypeDef *huart, uint8_t data)
     __HAL_UART_CLEAR_FLAG(huart, UART_FLAG_TXE);
     // delay();
 }
+
+#include <stdarg.h>
+void variable_argument_list_test(char *fmt, ...)
+{
+    va_list args;
+    va_start(args, fmt);
+    va_arg(args, int);
+    va_end(args);
+}
+
+/*
+MSVC - include - vadefs.h
+
+#ifndef _VA_LIST_DEFINED
+    #define _VA_LIST_DEFINED
+    #ifdef _M_CEE_PURE
+        typedef System::ArgIterator va_list;
+    #else
+        typedef char* va_list;
+    #endif
+#endif
+*/
