@@ -3523,7 +3523,6 @@ static HAL_StatusTypeDef UART_Transmit_IT(UART_HandleTypeDef *huart)
 {
   const uint16_t *tmp;
 
-
   /* Check that a Tx process is ongoing */
   if (huart->gState == HAL_UART_STATE_BUSY_TX)
   {
@@ -3619,9 +3618,9 @@ static HAL_StatusTypeDef UART_Receive_IT(UART_HandleTypeDef *huart)
         data8bits = *pdata8bits = (uint8_t)(huart->Instance->DR & (uint8_t)0x007F);
       }
       if(huart->RxXferCount != UART_INFINITE_EN_CNT){
-        huart->pRxBuffPtr += 1U;
-      }
-      
+      huart->pRxBuffPtr += 1U;
+    }
+
     }
 
     // if (--huart->RxXferCount == 0U)
@@ -3675,7 +3674,7 @@ static HAL_StatusTypeDef UART_Receive_IT(UART_HandleTypeDef *huart)
         huart->RxCpltCallback(huart);
 #else
         /*Call legacy weak Rx complete callback*/
-        HAL_UART_RxCpltCallback(huart);        
+        HAL_UART_RxCpltCallback(huart);
 #endif /* USE_HAL_UART_REGISTER_CALLBACKS */
       }
 
