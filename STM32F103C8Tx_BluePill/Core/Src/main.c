@@ -63,7 +63,7 @@ static void MX_GPIO_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_USART2_UART_Init(void);
 /* USER CODE BEGIN PFP */
-
+void edk_main_test(void);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -148,6 +148,32 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *UartHandle) {
  /* Set transmission flag: transfer complete*/
  UartReady = SET;
 }
+
+
+void edk_main(void)
+{
+  HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
+  uart_comm_command();
+
+
+/* usb virtual com port test*/
+
+  uint8_t data[] = "edk usb cdc test\n";
+  char cdcbuf[40];
+  uint16_t count = 0;
+
+  while(1)
+  {
+    sprintf(cdcbuf, "Count: %d\n", count++);
+    while(CDC_Transmit_FS((uint8_t *)cdcbuf, strlen(cdcbuf)) == USBD_BUSY)
+    {
+      ;      
+    }
+
+    HAL_Delay(1000);
+  }
+
+}
 /* USER CODE END 0 */
 
 /**
@@ -192,37 +218,14 @@ int main(void)
   RingBuffer_Init(&uart1_rxBuf);
 
   uart_comm_enable_RX_IT(&huart1, (uint8_t *)&uart1_rxBuf.buf, UART_INFINITE_EN_CNT);
-  /* USER CODE END 2 */
+  /* USER CODE END 2 */  
 
-  /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    /* USER CODE END WHILE */
-
-#if EDK_TEST == 1
-    for(volatile int32_t i = 0; i < (1000000/2); i++){
-      __NOP();
-    }    
-    HAL_GPIO_TogglePin(LED_GPIO_Port, LED_Pin);
-#elif EDK_TEST == 2
-    uart_comm_command();
-#elif EDK_TEST == 3
-printMessage:
-  printWelcomeMessage();
-  while (1)  {
-    opt = readUserInput();
-    if(opt > 0) {
-      processUserInput(opt);
-      if(opt == 3){
-        goto printMessage;
-      }      
-    }
+    edk_main();
   }
-#endif
-    /* USER CODE BEGIN 3 */
-  }
-  /* USER CODE END 3 */
+  /* USER CODE END WHILE */
 }
 
 /**

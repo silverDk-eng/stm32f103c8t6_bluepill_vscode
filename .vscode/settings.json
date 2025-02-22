@@ -27,5 +27,15 @@
         }
     },
     "cmake.sourceDirectory": "E:/git_projects/stm32_test_all/stm32f103c8t6_BluePill_test/STM32F103C8Tx_BluePill",
+    "cmake.additionalCompilerSearchDirs": [
+        "C:/msys64/mingw32/bin",
+        "C:/msys64/mingw64/bin",
+        "C:/msys64/clang32/bin",
+        "C:/msys64/clang64/bin",
+        "C:/msys64/ucrt64/bin"
+    ],
+    "cmake.buildDirectory": "${workspaceFolder}/build_cmake",
+    "cmake.buildTask": true,
+    "cmake.generator": "Unix Makefiles",
     // "cortex-debug.armToolchainPath.windows": 
 }
